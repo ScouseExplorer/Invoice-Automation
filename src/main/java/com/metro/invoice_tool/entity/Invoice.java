@@ -52,6 +52,10 @@ public class Invoice {
         if (dueDate == null && issueDate != null) {
             dueDate = issueDate.plusDays(30);
         }
+    } 
+    protected void linkInvoicetoCustomer(Customer customer) {
+        this.customerName = customer.getName();
+        this.amount = customer.getInvoiceAmount();
     }
 
     public Long getId() {
