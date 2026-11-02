@@ -38,6 +38,9 @@ public class Invoice {
     @Column(nullable = false)
     private InvoiceStatus status;
 
+    @Column(unique = true)
+    private String invoiceNumber;
+
     @Column(nullable = false, updatable = false)
     private Instant createdAt;
 
@@ -112,5 +115,13 @@ public class Invoice {
 
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getInvoiceNumber() {
+        return invoiceNumber;
+    }
+
+    public void setInvoiceNumber(String string) {
+        this.invoiceNumber = string;
     }
 }

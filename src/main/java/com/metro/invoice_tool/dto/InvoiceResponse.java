@@ -12,6 +12,7 @@ import com.metro.invoice_tool.entity.InvoiceStatus;
 public class InvoiceResponse {
 
     private Long id;
+    private String invoiceNumber;
     private String customerName;
     private BigDecimal amount;
     private LocalDate issueDate;
@@ -24,6 +25,7 @@ public class InvoiceResponse {
     public static InvoiceResponse fromEntity(Invoice invoice, Clock clock) {
         InvoiceResponse response = new InvoiceResponse();
         response.setId(invoice.getId());
+        response.setInvoiceNumber(invoice.getInvoiceNumber());
         response.setCustomerName(invoice.getCustomerName());
         response.setAmount(invoice.getAmount());
         response.setIssueDate(invoice.getIssueDate());
@@ -62,6 +64,14 @@ public class InvoiceResponse {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getInvoiceNumber() {
+        return invoiceNumber;
+    }
+
+    public void setInvoiceNumber(String invoiceNumber) {
+        this.invoiceNumber = invoiceNumber;
     }
 
     public String getCustomerName() {
@@ -127,4 +137,5 @@ public class InvoiceResponse {
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
+
 }

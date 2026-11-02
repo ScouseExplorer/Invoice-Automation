@@ -1,5 +1,6 @@
 package com.metro.invoice_tool.entity;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
 import jakarta.persistence.Column;
@@ -29,6 +30,9 @@ public class Customer {
 
     @Column(nullable = false, updatable = false)
     private Instant createdAt;
+
+    @Column(nullable = false)
+    private BigDecimal invoiceAmount = BigDecimal.ZERO;
 
     @PrePersist
     protected void onCreate() {
@@ -75,5 +79,14 @@ public class Customer {
 
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
+    }
+
+
+    public BigDecimal getInvoiceAmount() {
+        return invoiceAmount;
+    }
+
+    public void setInvoiceAmount(BigDecimal invoiceAmount) {
+        this.invoiceAmount = invoiceAmount;
     }
 }

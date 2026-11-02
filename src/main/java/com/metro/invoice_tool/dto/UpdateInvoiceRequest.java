@@ -55,4 +55,14 @@ public class UpdateInvoiceRequest {
     public void setStatus(InvoiceStatus status) {
         this.status = status;
     }
+
+    private Long customerId;
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
 }

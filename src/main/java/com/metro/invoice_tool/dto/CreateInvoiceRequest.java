@@ -42,4 +42,23 @@ public class CreateInvoiceRequest {
     public void setIssueDate(LocalDate issueDate) {
         this.issueDate = issueDate;
     }
+
+    private Long customerId;
+    private String invoiceNumber;
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
+
+    public void createInvoiceNumber(){
+        this.invoiceNumber = "INV-" + System.currentTimeMillis();
+    }
+
+    public String getInvoiceNumber() {
+        return invoiceNumber;
+    }
 }

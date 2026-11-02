@@ -45,6 +45,7 @@ class InvoiceControllerTest {
             assertThat(createResponse.body()).contains("\"customerName\":\"Acme Corp\"");
 
             long id = extractId(createResponse.body());
+            assertThat(createResponse.body()).contains("\"invoiceNumber\":\"INV-" + LocalDate.now().getYear() + "-" + String.format("%04d", id) + "\"");
 
             HttpRequest getRequest = HttpRequest.newBuilder()
                 .uri(URI.create(baseUrl("/api/invoices/" + id)))
@@ -55,6 +56,8 @@ class InvoiceControllerTest {
 
             assertThat(getResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
             assertThat(getResponse.body()).contains("\"amount\":150.0");
+                assertThat(getResponse.body()).contains("\"id\":" + id);
+                assertThat(getResponse.body()).contains("\"invoiceNumber\":\"INV-" + LocalDate.now().getYear() + "-" + String.format("%04d", id) + "\"");
     }
 
         @Test
@@ -130,6 +133,24 @@ class InvoiceControllerTest {
         assertThat(overdueResponse.body()).contains("\"customerName\":\"Overdue Issued\"");
         assertThat(overdueResponse.body()).doesNotContain("\"id\":" + overduePaidId);
         assertThat(overdueResponse.body()).doesNotContain("\"id\":" + notOverdueIssuedId);
+    }
+
+    @Test
+    void shouldGenerateInvoiceNumberInExpectedFormat() throws Exception {
+        LocalDate issueDate = LocalDate.of(2026, 10, 27);
+        long id = createInvoice("Acme Corp", issueDate);
+
+        HttpRequest generateRequest = HttpRequest.newBuilder()
+                .uri(URI.create(baseUrl("/api/invoices/" + id + "/generate-invoice-number")))
+                .PUT(HttpRequest.BodyPublishers.noBody())
+                .build();
+
+        HttpResponse<String> generateResponse = httpClient.send(generateRequest, HttpResponse.BodyHandlers.ofString());
+
+        assertThat(generateResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(generateResponse.body()).contains("\"id\":" + id);
+        assertThat(generateResponse.body()).contains("\"customerName\":\"Acme Corp\"");
+        assertThat(generateResponse.body()).contains("\"invoiceNumber\":\"INV-" + LocalDate.now().getYear() + "-" + String.format("%04d", id) + "\"");
     }
 
     private String baseUrl(String path) {

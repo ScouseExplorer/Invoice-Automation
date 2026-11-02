@@ -2,6 +2,7 @@ package com.metro.invoice_tool.controller;
 
 import java.util.List;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -59,6 +60,21 @@ public class InvoiceController {
     @PutMapping("/{id}")
     public ResponseEntity<InvoiceResponse> updateInvoice(@PathVariable Long id, @Valid @RequestBody UpdateInvoiceRequest request) {
         return ResponseEntity.ok(invoiceService.updateInvoice(id, request));
+    }
+
+    @GetMapping("/customer/{customerId}")
+    public ResponseEntity<@Nullable Object> getInvoicesByCustomerId(@PathVariable Long customerId) {
+        return ResponseEntity.ok(invoiceService.getInvoicesByCustomerId(customerId));
+    }
+    
+    @PutMapping("/customer/{customerId}")
+    public ResponseEntity<InvoiceResponse> updateInvoiceCustomer(@PathVariable Long customerId, @Valid @RequestBody UpdateInvoiceRequest request) {
+        return ResponseEntity.ok(invoiceService.updateInvoiceCustomer(customerId, request));
+    }
+
+    @PutMapping("/{id}/generate-invoice-number")
+    public ResponseEntity<InvoiceResponse> generateInvoiceNumber(@PathVariable Long id) {
+        return ResponseEntity.ok(invoiceService.generateInvoiceNumber(id));
     }
 }
       
